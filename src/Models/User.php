@@ -84,6 +84,9 @@ class User extends Entry implements Authenticatable
      */
     public function getRememberToken()
     {
+        // The remember token is not used by the User model.
+        // This method is required by the Authenticatable contract.
+        return '';
     }
 
     /**
@@ -1054,5 +1057,10 @@ class User extends Entry implements Authenticatable
         }
 
         return false;
+    }
+
+    public function getAuthPasswordName()
+    {
+        // TODO: Implement getAuthPasswordName() method.
     }
 }

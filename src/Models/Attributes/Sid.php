@@ -84,7 +84,7 @@ class Sid
             $subAuthorities
         );
 
-        return call_user_func_array('pack', $params);
+        return pack(...$params);
     }
 
     /**

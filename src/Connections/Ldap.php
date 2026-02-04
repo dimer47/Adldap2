@@ -271,7 +271,7 @@ class Ldap implements ConnectionInterface
     {
         $connection = $this->connection;
 
-        $result = is_resource($connection) ? ldap_close($connection) : false;
+        $result = (is_resource($connection) || $connection instanceof \LDAP\Connection) ? ldap_close($connection) : false;
 
         $this->bound = false;
 
@@ -415,7 +415,11 @@ class Ldap implements ConnectionInterface
      */
     public function controlPagedResult($pageSize = 1000, $isCritical = false, $cookie = '')
     {
-        return ldap_control_paged_result($this->connection, $pageSize, $isCritical, $cookie);
+        if (function_exists('ldap_control_paged_result')) {
+            return @ldap_control_paged_result($this->connection, $pageSize, $isCritical, $cookie);
+        }
+
+        return false;
     }
 
     /**
@@ -423,7 +427,11 @@ class Ldap implements ConnectionInterface
      */
     public function controlPagedResultResponse($result, &$cookie)
     {
-        return ldap_control_paged_result_response($this->connection, $result, $cookie);
+        if (function_exists('ldap_control_paged_result_response')) {
+            return @ldap_control_paged_result_response($this->connection, $result, $cookie);
+        }
+
+        return false;
     }
 
     /**

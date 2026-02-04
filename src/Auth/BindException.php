@@ -26,7 +26,7 @@ class BindException extends AdldapException
      *
      * @return $this
      */
-    public function setDetailedError(DetailedError $error = null)
+    public function setDetailedError(?DetailedError $error = null)
     {
         $this->detailedError = $error;
 

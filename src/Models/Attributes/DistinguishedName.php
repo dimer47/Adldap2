@@ -230,7 +230,7 @@ class DistinguishedName
 
                 if (method_exists($this, $method)) {
                     // We see what type of RDN it is and add each accordingly.
-                    call_user_func_array([$this, $method], [$pieces[1]]);
+                    $this->$method($pieces[1]);
                 }
             }
         }

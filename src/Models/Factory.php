@@ -61,7 +61,7 @@ class Factory
      *
      * @return $this
      */
-    public function setSchema(SchemaInterface $schema = null)
+    public function setSchema(?SchemaInterface $schema = null)
     {
         $this->schema = $schema ?: new ActiveDirectory();
 

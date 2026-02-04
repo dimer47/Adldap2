@@ -75,6 +75,7 @@ class User extends Entry implements Authenticatable
      */
     public function getAuthPassword()
     {
+        return '';
     }
 
     /**
@@ -107,6 +108,7 @@ class User extends Entry implements Authenticatable
      */
     public function getRememberTokenName()
     {
+        return 'remember_token';
     }
 
     /**
@@ -820,7 +822,7 @@ class User extends Entry implements Authenticatable
     {
         $this->validateSecureConnection();
 
-        $encodedPassword = call_user_func(static::getPasswordStrategy(), $password);
+        $encodedPassword = (static::getPasswordStrategy())($password);
 
         if ($this->exists) {
             // If the record exists, we need to add a batch replace
@@ -893,21 +895,21 @@ class User extends Entry implements Authenticatable
             $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_REPLACE,
-                [call_user_func(static::getPasswordStrategy(), $newPassword)]
+                [(static::getPasswordStrategy())( $newPassword)]
             );
         } else {
             // Create batch modification for removing the old password.
             $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_REMOVE,
-                [call_user_func(static::getPasswordStrategy(), $oldPassword)]
+                [(static::getPasswordStrategy())( $oldPassword)]
             );
 
             // Create batch modification for adding the new password.
             $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_ADD,
-                [call_user_func(static::getPasswordStrategy(), $newPassword)]
+                [(static::getPasswordStrategy())( $newPassword)]
             );
         }
 
@@ -958,7 +960,7 @@ class User extends Entry implements Authenticatable
      *
      * @return bool
      */
-    public function isExpired(DateTime $date = null)
+    public function isExpired(?DateTime $date = null)
     {
         // Here we'll determine if the account expires by checking is expiration date.
         if ($expirationDate = $this->expirationDate()) {
@@ -1059,8 +1061,13 @@ class User extends Entry implements Authenticatable
         return false;
     }
 
+    /**
+     * Get the column name for the password.
+     *
+     * @return string
+     */
     public function getAuthPasswordName()
     {
-        // TODO: Implement getAuthPasswordName() method.
+        return 'password';
     }
 }

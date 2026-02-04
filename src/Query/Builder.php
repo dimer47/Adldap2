@@ -154,7 +154,7 @@ class Builder
      * @param Grammar|null         $grammar
      * @param SchemaInterface|null $schema
      */
-    public function __construct(ConnectionInterface $connection, Grammar $grammar = null, SchemaInterface $schema = null)
+    public function __construct(ConnectionInterface $connection, ?Grammar $grammar = null, ?SchemaInterface $schema = null)
     {
         $this->setConnection($connection)
             ->setGrammar($grammar)
@@ -182,7 +182,7 @@ class Builder
      *
      * @return Builder
      */
-    public function setGrammar(Grammar $grammar = null)
+    public function setGrammar(?Grammar $grammar = null)
     {
         $this->grammar = $grammar ?: new Grammar();
 
@@ -196,7 +196,7 @@ class Builder
      *
      * @return Builder
      */
-    public function setSchema(SchemaInterface $schema = null)
+    public function setSchema(?SchemaInterface $schema = null)
     {
         $this->schema = $schema ?: new ActiveDirectory();
 
@@ -218,7 +218,7 @@ class Builder
      *
      * @param Cache|null $cache
      */
-    public function setCache(Cache $cache = null)
+    public function setCache(?Cache $cache = null)
     {
         $this->cache = $cache;
 
@@ -249,12 +249,12 @@ class Builder
      *
      * @return $this
      */
-    public function newNestedInstance(Closure $closure = null)
+    public function newNestedInstance(?Closure $closure = null)
     {
         $query = $this->newInstance()->nested();
 
         if ($closure) {
-            call_user_func($closure, $query);
+            $closure($query);
         }
 
         return $query;
@@ -1082,7 +1082,7 @@ class Builder
         // 2 values are passed to the method, we will assume that
         // the operator is 'equals' and keep going.
         if (func_num_args() === 2 && in_array($operator, $bypass) === false) {
-            list($value, $operator) = [$operator, '='];
+            [$value, $operator] = [$operator, '='];
         }
 
         if (!in_array($operator, Operator::all())) {
@@ -1686,7 +1686,7 @@ class Builder
      *
      * @return $this
      */
-    public function cache(\DateTimeInterface $until = null, $flush = false)
+    public function cache(?\DateTimeInterface $until = null, $flush = false)
     {
         $this->caching = true;
         $this->cacheUntil = $until;
@@ -1798,7 +1798,7 @@ class Builder
             return $this->dynamicWhere($method, $parameters);
         }
 
-        return call_user_func_array([$this->newProcessor(), $method], $parameters);
+        return $this->newProcessor()->$method(...$parameters);
     }
 
     /**
@@ -1858,7 +1858,7 @@ class Builder
             if (is_numeric($key) && is_array($value)) {
                 // If the key is numeric and the value is an array, we'll
                 // assume we've been given an array with conditionals.
-                list($field, $condition) = $value;
+                [$field, $condition] = $value;
 
                 // Since a value is optional for some conditionals, we will
                 // try and retrieve the third parameter from the array,

@@ -23,7 +23,7 @@ class EventLogger
      *
      * @param LoggerInterface $logger
      */
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }

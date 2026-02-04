@@ -50,7 +50,7 @@ class Factory
      * @param SchemaInterface|null $schema     The schema to use for the query and models located.
      * @param string               $baseDn     The base DN to use for all searches.
      */
-    public function __construct(ConnectionInterface $connection, SchemaInterface $schema = null, $baseDn = '')
+    public function __construct(ConnectionInterface $connection, ?SchemaInterface $schema = null, $baseDn = '')
     {
         $this->setConnection($connection)
             ->setSchema($schema)
@@ -78,7 +78,7 @@ class Factory
      *
      * @return $this
      */
-    public function setSchema(SchemaInterface $schema = null)
+    public function setSchema(?SchemaInterface $schema = null)
     {
         $this->schema = $schema ?: new ActiveDirectory();
 
@@ -268,7 +268,7 @@ class Factory
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this->newQuery(), $method], $parameters);
+        return $this->newQuery()->$method(...$parameters);
     }
 
     /**

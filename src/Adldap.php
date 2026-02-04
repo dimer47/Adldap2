@@ -60,7 +60,7 @@ class Adldap implements AdldapInterface
     /**
      * {@inheritdoc}
      */
-    public function addProvider($config, $name = 'default', ConnectionInterface $connection = null)
+    public function addProvider($config, $name = 'default', ?ConnectionInterface $connection = null)
     {
         if ($this->isValidConfig($config)) {
             $config = new Provider($config, $connection ?? new Ldap($name));
@@ -158,7 +158,7 @@ class Adldap implements AdldapInterface
             $provider->connect();
         }
 
-        return call_user_func_array([$provider, $method], $parameters);
+        return $provider->$method(...$parameters);
     }
 
     /**

@@ -61,7 +61,7 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($configuration = [], ConnectionInterface $connection = null)
+    public function __construct($configuration = [], ?ConnectionInterface $connection = null)
     {
         $this->setConfiguration($configuration)
             ->setConnection($connection);
@@ -107,7 +107,7 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function setConnection(ConnectionInterface $connection = null)
+    public function setConnection(?ConnectionInterface $connection = null)
     {
         // We will create a standard connection if one isn't given.
         $this->connection = $connection ?: new Ldap();
@@ -127,7 +127,7 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function setSchema(SchemaInterface $schema = null)
+    public function setSchema(?SchemaInterface $schema = null)
     {
         $this->schema = $schema ?: new ActiveDirectory();
 

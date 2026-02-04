@@ -18,7 +18,7 @@ interface AdldapInterface
      *
      * @return $this
      */
-    public function addProvider($configuration, $name, ConnectionInterface $connection = null);
+    public function addProvider($configuration, $name, ?ConnectionInterface $connection = null);
 
     /**
      * Returns all of the connection providers.

@@ -165,8 +165,7 @@ class Utilities
      */
     public static function makeSSHAPassword($password)
     {
-        mt_srand((float) microtime() * 1000000);
-        $salt = pack('CCCC', mt_rand(), mt_rand(), mt_rand(), mt_rand());
+        $salt = random_bytes(4);
 
         return '{SSHA}'.base64_encode(pack('H*', sha1($password.$salt)).$salt);
     }

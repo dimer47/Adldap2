@@ -16,7 +16,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!defined('LDAP_CONTROL_PAGEDRESULTS')) {
             define('LDAP_CONTROL_PAGEDRESULTS', '1.2.840.113556.1.4.319');
@@ -24,11 +24,47 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         // Set constants for testing without LDAP support
         if (!defined('LDAP_OPT_PROTOCOL_VERSION')) {
-            define('LDAP_OPT_PROTOCOL_VERSION', 3);
+            define('LDAP_OPT_PROTOCOL_VERSION', 17);
         }
 
         if (!defined('LDAP_OPT_REFERRALS')) {
-            define('LDAP_OPT_REFERRALS', 0);
+            define('LDAP_OPT_REFERRALS', 8);
+        }
+
+        if (!defined('LDAP_OPT_NETWORK_TIMEOUT')) {
+            define('LDAP_OPT_NETWORK_TIMEOUT', 20485);
+        }
+
+        if (!defined('LDAP_OPT_DIAGNOSTIC_MESSAGE')) {
+            define('LDAP_OPT_DIAGNOSTIC_MESSAGE', 50);
+        }
+
+        if (!defined('LDAP_OPT_ERROR_STRING')) {
+            define('LDAP_OPT_ERROR_STRING', 10);
+        }
+
+        if (!defined('LDAP_OPT_SERVER_CONTROLS')) {
+            define('LDAP_OPT_SERVER_CONTROLS', 18);
+        }
+
+        if (!defined('LDAP_MODIFY_BATCH_ADD')) {
+            define('LDAP_MODIFY_BATCH_ADD', 1);
+        }
+
+        if (!defined('LDAP_MODIFY_BATCH_REMOVE')) {
+            define('LDAP_MODIFY_BATCH_REMOVE', 2);
+        }
+
+        if (!defined('LDAP_MODIFY_BATCH_REMOVE_ALL')) {
+            define('LDAP_MODIFY_BATCH_REMOVE_ALL', 18);
+        }
+
+        if (!defined('LDAP_MODIFY_BATCH_REPLACE')) {
+            define('LDAP_MODIFY_BATCH_REPLACE', 3);
+        }
+
+        if (!defined('LDAP_OPT_SIZELIMIT')) {
+            define('LDAP_OPT_SIZELIMIT', 3);
         }
 
         if (!array_key_exists('REMOTE_USER', $_SERVER)) {
@@ -43,7 +79,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         User::usePasswordStrategy(function ($password) {
             return Utilities::encodePassword($password);
@@ -55,7 +91,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function assertPostConditions()
+    protected function assertPostConditions(): void
     {
         $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
 

@@ -113,9 +113,9 @@ class LdapTest extends TestCase
 
     public function test_set_options()
     {
-        $ldap = $this->getMockBuilder(Ldap::class)->setMethods(['setOption'])->getMock();
+        $ldap = $this->mock(Ldap::class)->makePartial();
 
-        $ldap->expects($this->exactly(2))->method('setOption');
+        $ldap->shouldReceive('setOption')->twice();
 
         $ldap->setOptions([1 => 'value', 2 => 'value']);
     }
